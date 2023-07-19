@@ -100,7 +100,7 @@ def spPlate_identify(origin, *args, **kwargs):
     label="SDSS-III/IV spec", identifier=spec_identify, extensions=['fits'],
     priority=10,
 )
-def spec_loader(file_obj, **kwargs):
+def spec_loader(file_obj, sky=False, **kwargs):
     """
     Loader for SDSS-III/IV optical spectrum "spec" files.
 
@@ -126,7 +126,7 @@ def spec_loader(file_obj, **kwargs):
         flux_unit = Unit(bunit)
 
         # spectrum is in HDU 1
-        flux = hdulist[1].data['flux'] * flux_unit
+        flux = hdulist[1].data['sky' if sky else 'flux'] * flux_unit
 
         uncertainty = InverseVariance(hdulist[1].data['ivar'] / flux_unit**2)
 
